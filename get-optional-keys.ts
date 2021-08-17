@@ -8,6 +8,20 @@ type OptionalBaseModule = {
   event?: () => void;
 };
 
+
+/**
+ * 若开启了强制空检测 strictNullChecks
+ * ts 会默认给可选参数添加 undefined 的联合类型
+ * 因此可以用 undefined 去判断是否继承
+ * 
+ * -? 的作用是将可选变成必选 严格模式下 会将默认添加的 undefined 去除
+ */
+
+type GetOptionKeys<T> = { [K in keyof T]-?: undefined extends T[K] ? K : never }[keyof T]
+
+type OptionalResult2 = GetOptionKeys<OptionalBaseModule>
+
+
 /**
  * 原理是 ：
  * ts 判断是否继承是根据结构来判断的 且 必选 是 可选 的子类型

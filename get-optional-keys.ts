@@ -41,3 +41,13 @@ type OptionsKeys<T> = { [K in keyof T]: IsOptions<T, K> }[keyof T];
 
 type OptionalResult = OptionsKeys<OptionalBaseModule>;
 // OptionalResult = "event"
+
+
+// 学到一个新方法 精简！
+// 原理是 利用 {} extends { key: type } 来判断是否可选
+// {} extends { key: string } = false
+// {} extends { key?: string } = true
+
+type OptionsKeys3<T> = { [K in keyof T]: {} extends Pick<T, K> ? K : never }[keyof T]
+
+type OptionalResult3 = OptionsKeys3<OptionalBaseModule>;
